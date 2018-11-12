@@ -1,6 +1,7 @@
 # re-script-games
+- [Firebaseでホスティング中のアプリ](https://hostingsite-243a5.firebaseapp.com/)を全てnuxtに移行するプロジェクト
+- CSSフレームワークはbulmaを選んでおしゃれ目に
 
-> My funkadelic Nuxt.js project
 
 ## Build Setup
 
@@ -18,5 +19,3 @@ $ npm start
 # generate static project
 $ npm run generate
 ```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).

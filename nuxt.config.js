@@ -64,5 +64,8 @@ module.exports = {
     extend(config, ctx) {
       
     }
+  },
+  router: {
+    base: '/re-script-games/'
   }
 }
