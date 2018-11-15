@@ -175,7 +175,7 @@
     overflow: auto;
   }
   .has-img {
-    background-image: url('/img/games.jpeg');
+    background-image: url('~/static/img/games.jpeg');
     background-size: 100% 100%;
 
   }
