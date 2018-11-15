@@ -1,5 +1,11 @@
 const pkg = require('./package')
 
+const routerBase = process.env.DEPLOY_ENV === 'GH_PAGES' ? {
+  router: {
+    base: '/re-script-games/'
+  }
+} : {}
+
 module.exports = {
   mode: 'spa',
 
@@ -65,7 +71,5 @@ module.exports = {
       
     }
   },
-  router: {
-    base: '/re-script-games/'
-  }
+  ...routerBase
 }
