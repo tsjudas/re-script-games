@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar is-dark is-fixed-top">
+    <nav class="navbar is-link is-fixed-top">
       <div class="navbar-brand">
         <nuxt-link class="navbar-item" to="/">
           Script Games ~remake with nuxt~
@@ -23,9 +23,13 @@
               Others
             </p>
             <div class="navbar-dropdown is-boxed">
-              <a class="navbar-item" href="https://bulma.io/documentation/overview/start/">
-                about this page
+              <nuxt-link class="navbar-item" to="about">
+                <p>About this page</p>
+              </nuxt-link>
+              <a class="navbar-item" href="https://github.com/tsjudas/re-script-games">
+                <img class="image" height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/github.svg" />
               </a>
+              
             </div>
           </div>
         </div>

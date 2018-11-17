@@ -11,9 +11,11 @@
     "generate": "SET DEPLOY_ENV=GH_PAGES & nuxt generate"
   },
   "dependencies": {
+    "@nuxtjs/bulma": "^1.2.0",
+    "animate.css": "^3.7.0",
     "cross-env": "^5.2.0",
     "nuxt": "^2.0.0",
-    "@nuxtjs/bulma": "^1.2.0"
+    "wow.js": "^1.2.2"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",

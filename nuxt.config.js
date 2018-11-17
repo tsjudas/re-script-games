@@ -31,12 +31,14 @@ module.exports = {
     '@fortawesome/fontawesome-free-webfonts/css/fa-brands.css',
     '@fortawesome/fontawesome-free-webfonts/css/fa-regular.css',
     '@fortawesome/fontawesome-free-webfonts/css/fa-solid.css',
+    'animate.css/animate.min.css',
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src: '~plugins/import-wow.js', ssr: false }
   ],
 
   /*
@@ -58,6 +60,10 @@ module.exports = {
         }
       }
     },
+    vender: [
+      //'wow.js/dist/wow.min.js',
+      'wow.js',
+    ],
     /*
     ** You can extend webpack config here
     */

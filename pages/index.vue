@@ -1,6 +1,6 @@
 <template>
   <div class="columns is-multiline is-centered">
-    <div class="column is-4 is-desktop" v-for="game in games" :key="game.id">
+    <div class="column is-4 is-desktop wow bounceIn" v-for="game in games" :key="game.id">
       <div class="card">
         <div class="card-content image-fill" :style="{'background-image': 'url('+game.imageUrl+')'}">
           <p class="title">
@@ -73,16 +73,16 @@
             subtitle: 'マインスイーパ',
             detail: '完成！中右クリックが反応しないという事態に出くわしたが、Chromeのデベロッパーツールモードだと機能しない事を初めて知った。あと地味に再帰に苦戦した。',
             link: '/games/mine',
-            imageUrl: './img/games.jpeg',
+            imageUrl: require('~/assets/img/games.jpeg'),
             showDetail: false,
           },
           {
             id: 2,
             title: 'Oak Battle',
             subtitle: 'オークバトル',
-            detail: '開発中…',
+            detail: '絶賛着手中…',
             link: '/games/oak',
-            imageUrl: './img/games.jpeg',
+            imageUrl: require('~/assets/img/games.jpeg'),
             showDetail: false,
           },
           {
@@ -91,7 +91,7 @@
             subtitle: 'ソリティア',
             detail: '開発中…',
             link: '/games/solitia',
-            imageUrl: './img/cards.jpeg',
+            imageUrl: require('~/assets/img/cards.jpeg'),
             showDetail: false,
           },
           {
@@ -100,7 +100,7 @@
             subtitle: 'ローグライク',
             detail: '開発中…',
             link: '/games/rogue',
-            imageUrl: './img/games.jpeg',
+            imageUrl: require('~/assets/img/games.jpeg'),
             showDetail: false,
           },
           {
@@ -109,7 +109,7 @@
             subtitle: 'ライフゲーム',
             detail: '開発中…',
             link: '/games/life',
-            imageUrl: './img/board-games.jpeg',
+            imageUrl: require('~/assets/img/board-games.jpeg'),
             showDetail: false,
           },
           {
@@ -118,7 +118,7 @@
             subtitle: 'ぷよてきな',
             detail: '開発中…',
             link: '/games/puyo',
-            imageUrl: './img/games.jpeg',
+            imageUrl: require('~/assets/img/games.jpeg'),
             showDetail: false,
           },
           {
@@ -127,7 +127,7 @@
             subtitle: 'GoogleMapのサンプル',
             detail: '開発中…',
             link: '/games/mapsample',
-            imageUrl: './img/maps.jpeg',
+            imageUrl: require('~/assets/img/maps.jpeg'),
             showDetail: false,
           },
           {
@@ -136,7 +136,7 @@
             subtitle: 'Linebot系',
             detail: '開発中…',
             link: '/games/linebot',
-            imageUrl: './img/robots.jpeg',
+            imageUrl: require('~/assets/img/robots.jpeg'),
             showDetail: false,
           },
         ],

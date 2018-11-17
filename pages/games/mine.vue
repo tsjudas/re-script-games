@@ -1,6 +1,6 @@
 <template>
   <div class="tile is-parent is-vertical">
-    <section class="hero has-img is-dark">
+    <section class="hero has-img is-dark" :style="{'background-image': 'url('+ require('~/assets/img/games.jpeg') +')'}">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
@@ -20,9 +20,12 @@
           </h1>
           <h2 class="subtitle">
             左クリック：パネルオープン
-            中クリック：周りをオープン
-            右クリック：旗を立てる
+            右クリック：開いている場合、周りをオープン  未開の場合、旗を立てる
           </h2>
+          <h3 class="content">
+            スマホの場合, タッチ：パネルオープン
+            長押し：開いている場合、周りをオープン  未開の場合、旗を立てる
+          </h3>
         </div>
       </div>
     </section>
@@ -130,7 +133,8 @@
               <table class="table is-bordered is-hoverable" style="margin: auto;">
                 <tbody>
                   <tr v-for="row in field" :key="row.id">
-                    <td style="user-select: none;" v-for="col in row.cols" :key="col.id" @click.left="openPanel(col)" @click.middle="openAround(col)" @contextmenu.prevent="toggleFlag(col)">
+                    <td style="user-select: none;" v-for="col in row.cols" :key="col.id"
+                        @click.left="openPanel(col)" @contextmenu.prevent="onRightClick(col)">
                       <div style="width: 30px; height: 30px;">
                         <img v-if="col.visible || col.isFlag" width="30px" height="30px" :src="getPanelImgSrc(col)">
                         <div v-else ></div>
@@ -175,9 +179,7 @@
     overflow: auto;
   }
   .has-img {
-    background-image: url('~/static/img/games.jpeg');
     background-size: 100% 100%;
-
   }
 
 </style>
@@ -318,7 +320,6 @@
           const randx = Math.ceil(Math.random() * (this.x - 1));
           const randy = Math.ceil(Math.random() * (this.y - 1));
           
-          console.log(randx + ":" + randy);
           if (!this.field[randx].cols[randy].isBombs) {
             this.field[randx].cols[randy].isBombs = true;
             remainBombs--;
@@ -365,10 +366,14 @@
           this.clearCheck();
         }
       },
-      toggleFlag(col) {
+      onRightClick(col) {
         if (col.visible) {
-          return;
+          this.openAround(col);
+        } else {
+          this.toggleFlag(col);
         }
+      },
+      toggleFlag(col) {
         if (col.isFlag) {
           col.isFlag = false;
           this.flags++;
@@ -429,15 +434,12 @@
         }
       },
       clearCheck() {
-        console.log("clear check!");
         for (const row of this.field) {
           for (const col of row.cols) {
             if (!col.visible && !col.isFlag) {
-              console.log(col.posx + ":" + col.posy + " = notVisible And notFlagged");
               return;
             }
             if (col.isFlag && !col.isBombs) {
-              console.log(col.posx + ":" + col.posy + " = notCorrectFlag");
               return;
             }
           }
@@ -484,20 +486,21 @@
         this.timerId = setTimeout(this.tickTime, 10);
       },
       getFaceImgSrc() {
-        return require('~/static/img/face_' + this.gameState + '.png');
+        return require('~/assets/img/face_' + this.gameState + '.png');
       },
       getPanelImgSrc(col) {
         if (col.isFlagNotCorrect) {
-          return require('~/static/img/flag-not-correct.png');
+          return require('~/assets/img/flag-not-correct.png');
         }
         if (col.isFlag) {
-          return require('~/static/img/flag.png');
+          return require('~/assets/img/flag.png');
         }
         if (col.isBombs) {
-          return require('~/static/img/bakudan.png');
+          return require('~/assets/img/bakudan.png');
         }
-        return require('~/static/img/number_' + col.num + '.png');
-      }
+        return require('~/assets/img/number_' + col.num + '.png');
+      },
+      
     },
   }
 
