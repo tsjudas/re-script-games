@@ -23,7 +23,7 @@
               Others
             </p>
             <div class="navbar-dropdown is-boxed">
-              <nuxt-link class="navbar-item" to="about">
+              <nuxt-link class="navbar-item" to="/about">
                 <p>About this page</p>
               </nuxt-link>
               <a class="navbar-item" href="https://github.com/tsjudas/re-script-games">
