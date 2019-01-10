@@ -38,7 +38,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~plugins/import-wow.js', ssr: false }
+    { src: '~plugins/import-wow.js', ssr: false },
   ],
 
   /*
@@ -72,6 +72,6 @@ module.exports = {
     }
   },
   router: {
-    base: '/re-script-games/'
+    // base: '/re-script-games/'
   }
 }

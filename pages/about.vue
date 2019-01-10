@@ -70,6 +70,7 @@
 .has-img {
   background-size: 100% 100%;
   text-shadow: 2px 2px 1px whitesmoke;
+  background-attachment: fixed;
 }
 </style>
 
