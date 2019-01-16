@@ -14,7 +14,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Noto+Sans+JP' }
     ]
   },
 
@@ -38,7 +39,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~plugins/import-wow.js', ssr: false }
+    { src: '~plugins/import-wow.js', ssr: false },
   ],
 
   /*
@@ -72,6 +73,6 @@ module.exports = {
     }
   },
   router: {
-    base: '/re-script-games/'
+    // base: '/re-script-games/'
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="tile is-parent is-vertical">
-    <section class="hero has-img is-dark" :style="{'background-image': 'url('+ require('~/assets/img/games.jpeg') +')'}">
+    <section class="hero has-img is-medium" :style="{'background-image': 'url('+ require('~/assets/img/games.jpeg') +')'}">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
@@ -180,6 +180,8 @@
   }
   .has-img {
     background-size: 100% 100%;
+    text-shadow: 2px 2px 1px white;
+    background-attachment: fixed;
   }
 
 </style>

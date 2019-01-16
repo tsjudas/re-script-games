@@ -8,9 +8,16 @@
 </template>
 
 <style scoped>
-  #main-content {
-    margin-top: 64px;
-  }
+#main-content {
+  margin-top: 64px;
+}
+</style>
+
+<style>
+html * {
+  font-family: 'Noto Sans JP', sans-serif;
+  
+}
 </style>
 
 <script>

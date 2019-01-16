@@ -34,8 +34,7 @@
           </div>
         </div>
 
-        <div class="navbar-end">
-        </div>
+        <div class="navbar-end"/>
       </div>
     </nav>
   </div>
