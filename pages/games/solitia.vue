@@ -94,6 +94,11 @@
                   {{hand.arr[hand.arr.length-1].suit.mark}}{{hand.arr[hand.arr.length-1].num}}
                 </div>
               </div>
+              <div class="solitia-card" v-if="showarea.arr.length <= 0 && hand.arr.length <= 0">
+                <div class="solitia-card-none" draggable="false">
+                  NONE
+                </div>
+              </div>
             </div>
           </div>
           <div class="stack-cards">

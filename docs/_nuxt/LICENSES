@@ -23,6 +23,12 @@ object-assign
 */
 
 /*!
+ * bulma-toast 1.4.0 
+ * (c) 2018-present @rfoel <rafaelfr@outlook.com> 
+ * Released under the MIT License.
+ */
+
+/*!
  * vue-no-ssr v1.0.0
  * (c) 2018-present egoist <0x142857@gmail.com>
  * Released under the MIT License.

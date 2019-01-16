@@ -73,6 +73,6 @@ module.exports = {
     }
   },
   router: {
-    // base: '/re-script-games/'
+    base: '/re-script-games/'
   }
 }
