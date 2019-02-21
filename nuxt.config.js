@@ -39,7 +39,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: '~plugins/import-wow.js', ssr: false },
+    { src: '~/plugins/import-wow.js', ssr: false },
+    { src: '~/plugins/import-vue-touch.js', ssr: false }
   ],
 
   /*
@@ -69,10 +70,12 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+      if (ctx.isServer) {
+        config.resolve.alias['hammerjs$'] = this.options.rootDir + 'node_modules/vue-touch/dist/hammer-ssr.js'
+      }
     }
   },
   router: {
-    base: '/re-script-games/'
+    // base: '/re-script-games/'
   }
 }

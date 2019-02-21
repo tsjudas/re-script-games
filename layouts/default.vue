@@ -9,7 +9,7 @@
 
 <style scoped>
 #main-content {
-  margin-top: 64px;
+  margin-top: 36px;
 }
 </style>
 

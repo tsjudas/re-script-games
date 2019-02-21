@@ -1,6 +1,6 @@
 <template>
   <div class="tile is-parent is-vertical">
-    <section class="hero has-img" :style="{'background-image': 'url('+ require('~/assets/img/cards.jpeg') +')'}">
+    <section class="hero has-img is-desktop-only" :style="{'background-image': 'url('+ require('~/assets/img/cards.jpeg') +')'}">
       <div class="hero-body">
         <h1 class="title">
           Solitia
@@ -10,7 +10,7 @@
         </h2>
       </div>
     </section>
-    <section class="hero is-small">
+    <section class="hero is-small is-desktop-only">
       <div class="hero-body">
         <div class="container">
           <h1 class="title">
@@ -19,14 +19,11 @@
           <h2 class="subtitle">
             ドラッグしてカードを動かす
           </h2>
-          <h3 class="content">
-            <s>AUTOボタンで自動送り</s>まだだめ
-          </h3>
         </div>
       </div>
     </section>
     <div class="tile is-parent is-vertical">
-      <div class="tile is-child is-vertical">
+      <div class="tile is-child is-vertical buttons-field">
         <div class="field">
           <input class="is-checkradio has-no-border is-info" id="exampleRadioInline1" type="radio" name="exampleRadioInline" checked="checked" value="1" v-model="nextCardNum"
             :disabled="gameState !== 'notinit'">
@@ -40,100 +37,133 @@
         <button class="button is-info is-rounded" @click="initGame()" :disabled="gameState !== 'notinit'">Init</button>
         <button class="button is-danger is-rounded" @click="resetGame()" :disabled="gameState === 'notinit'">Reset</button>
       </div>
-      <div class="game-field" v-if="gameState !== 'notinit'">
-        <div class="box score-field">
-          <nav class="level is-mobile">
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">SCORE</p>
-                <p class="title">{{point}}</p>
+      <div>
+        <div class="box game-field" v-if="gameState !== 'notinit'">
+          <div class="score-field">
+            <nav class="level is-mobile is-desktop-only">
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">SCORE</p>
+                  <p class="title">{{point}}</p>
+                </div>
               </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Time</p>
-                <p class="title">{{time}}</p>
+              <div class="level-item has-text-centered">
+                <div>
+                  <p class="heading">Time</p>
+                  <p class="title">{{time}}</p>
+                </div>
               </div>
-            </div>
-          </nav>
-        </div>
-        <div class="box sub-field">
-          <div style="width: 100px;">
-            <button class="button is-info is-rounded fill-element" @click="autoPlay()">
-              <div class="is-mobile-only"><i class="fas fa-caret-right"></i></div>
-              <div class="is-desktop-only">AutoPlay</div>
-            </button>
+            </nav>
           </div>
-          <div class="deck-field">
-            <div class="deck">
-              <button class="button is-primary is-rounded fill-element" @click="nextCard()">
-                <div v-if="deck.length > 0">
-                  <div class="is-mobile-only"><i class="fas fa-arrow-right"></i></div>
-                  <div class="is-desktop-only">Next</div>
+          <div class="sub-field">
+            <div class="stack-cards">
+              <div class="solitia-card" v-for="line in stack" :key="line.id"
+                    draggable="true"
+                    @dragstart="dragStart(line, line.arr[line.arr.length-1], $event)"
+                    @dragend="dragEnd(line, $event)"
+                    @dragover="dragOver(line)"
+                    @touchstart="dragStart(line, line.arr[line.arr.length-1], $event)"
+                    @touchmove="dragOver(line)"
+                    @touchend="dragEnd(line, $event)"
+                    @mousedown="dragStart(line, line.arr[line.arr.length-1], $event)"
+                    @mousemove="dragOver(line)"
+                    @mouseleave="dragEnd(line, $event)"
+                    >
+                <div v-if="line.arr.length === 0" class="solitia-card-none">
                 </div>
-                <div v-else>
-                  <div class="is-mobile-only"><i class="far fa-times-circle"></i></div>
-                  <div class="is-desktop-only">Empty!</div>
+                <div v-else class="solitia-card-front" :style="{ 'color': line.arr[line.arr.length-1].suit.color }">
+                  {{line.arr[line.arr.length - 1].suit.mark}}{{line.arr[line.arr.length - 1].num}}
                 </div>
+              </div>
+            </div>
+            <div style="width: 100px;">
+              <button class="button is-info is-rounded fill-element" @click="autoPlay()">
+                <div class="is-mobile-only"><i class="fas fa-caret-right"></i></div>
+                <div class="is-desktop-only">AutoPlay</div>
               </button>
             </div>
-            <div class="hand-cards">
-              <div class="solitia-card" v-for="card in showarea.arr" :key="card.suit.mark + card.num" :style="{'color': card.suit.color}">
-                <div class="solitia-card-front" :draggable="card == showarea.arr[showarea.arr.length-1]"
-                    @dragstart="dragStart(showarea, card, $event)"
+            <div class="deck-field">
+              <div class="deck">
+                <button class="button is-primary is-rounded fill-element" @click="nextCard()">
+                  <div v-if="deck.length > 0">
+                    <div class="is-mobile-only"><i class="fas fa-arrow-right"></i></div>
+                    <div class="is-desktop-only">Next</div>
+                  </div>
+                  <div v-else>
+                    <div class="is-mobile-only"><i class="far fa-times-circle"></i></div>
+                    <div class="is-desktop-only">Empty!</div>
+                  </div>
+                </button>
+              </div>
+              <div class="hand-cards">
+                <div class="solitia-card" v-for="card in showarea.arr" :key="card.suit.mark + card.num" :style="{'color': card.suit.color}">
+                  <div class="solitia-card-front" :draggable="card == showarea.arr[showarea.arr.length-1]"
+                      @dragstart="dragStart(showarea, card, $event)"
+                      @dragend="dragEnd()"
+                      @dragover="dragOver(showarea)"
+                      @touchstart="dragStart(line, line.arr[line.arr.length-1], $event)"
+                      @touchmove="dragOver(line)"
+                      @touchend="dragEnd(line, $event)"
+                      @mousedown="dragStart(line, line.arr[line.arr.length-1], $event)"
+                      @mousemove="dragOver(line)"
+                      @mouseleave="dragEnd(line, $event)"
+                      >
+                    {{card.suit.mark}}{{card.num}}
+                  </div>
+                </div>
+                <div class="solitia-card" v-if="showarea.arr.length <= 0 && hand.arr.length > 0" :style="{'color': hand.arr[hand.arr.length-1].suit.color}">
+                  <div class="solitia-card-front" v-if="hand.arr[hand.arr.length-1].front" draggable="true"
+                      @dragstart="dragStart(hand, hand.arr[hand.arr.length-1], $event)"
+                      @dragend="dragEnd()"
+                      @dragover="dragOver(showarea)"
+                      @touchstart="dragStart(line, line.arr[line.arr.length-1], $event)"
+                      @touchmove="dragOver(line)"
+                      @touchend="dragEnd(line, $event)"
+                      @mousedown="dragStart(line, line.arr[line.arr.length-1], $event)"
+                      @mousemove="dragOver(line)"
+                      @mouseleave="dragEnd(line, $event)"
+                      >
+                    {{hand.arr[hand.arr.length-1].suit.mark}}{{hand.arr[hand.arr.length-1].num}}
+                  </div>
+                </div>
+                <div class="solitia-card" v-if="showarea.arr.length <= 0 && hand.arr.length <= 0">
+                  <div class="solitia-card-none" draggable="false">
+                    NONE
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="main-field">
+            <div class="main-line" v-for="line in field" :key="line.id">
+              <div class="solitia-card" v-for="card in line.arr" :key="card.suit.mark + card.num" @click="turnCard(line, card)">
+                <div v-if="card.front" class="solitia-card-front" :style="{'color': card.suit.color}" draggable="true"
+                    @dragstart="dragStart(line, card, $event)"
                     @dragend="dragEnd()"
-                    @dragover="dragOver(showarea)">
+                    @dragover="dragOver(line)"
+                    @touchstart="dragStart(line, line.arr[line.arr.length-1], $event)"
+                    @touchmove="dragOver(line)"
+                    @touchend="dragEnd(line, $event)"
+                    @mousedown="dragStart(line, line.arr[line.arr.length-1], $event)"
+                    @mousemove="dragOver(line)"
+                    @mouseleave="dragEnd(line, $event)"
+                    >
                   {{card.suit.mark}}{{card.num}}
                 </div>
+                <div v-else class="solitia-card-back">
+                </div>
               </div>
-              <div class="solitia-card" v-if="showarea.arr.length <= 0 && hand.arr.length > 0" :style="{'color': hand.arr[hand.arr.length-1].suit.color}">
-                <div class="solitia-card-front" v-if="hand.arr[hand.arr.length-1].front" draggable="true"
-                    @dragstart="dragStart(hand, hand.arr[hand.arr.length-1], $event)"
+              <div v-if="line.arr.length <= 0" class="solitia-card">
+                <div draggable="false" class="solitia-card-none"
                     @dragend="dragEnd()"
-                    @dragover="dragOver(showarea)">
-                  {{hand.arr[hand.arr.length-1].suit.mark}}{{hand.arr[hand.arr.length-1].num}}
+                    @dragover="dragOver(line)"
+                    @touchmove="dragOver(line)"
+                    @touchend="dragEnd(line, $event)"
+                    @mousemove="dragOver(line)"
+                    @mouseleave="dragEnd(line, $event)"
+                    >
+                  FREE
                 </div>
-              </div>
-              <div class="solitia-card" v-if="showarea.arr.length <= 0 && hand.arr.length <= 0">
-                <div class="solitia-card-none" draggable="false">
-                  NONE
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="stack-cards">
-            <div class="solitia-card" v-for="line in stack" :key="line.id"
-                  draggable="true"
-                  @dragstart="dragStart(line, line.arr[line.arr.length-1], $event)"
-                  @dragend="dragEnd(line, $event)"
-                  @dragover="dragOver(line)">
-              <div v-if="line.arr.length === 0" class="solitia-card-none">
-              </div>
-              <div v-else class="solitia-card-front" :style="{ 'color': line.arr[line.arr.length-1].suit.color }">
-                {{line.arr[line.arr.length - 1].suit.mark}}{{line.arr[line.arr.length - 1].num}}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="box main-field">
-          <div class="main-line" v-for="line in field" :key="line.id">
-            <div class="solitia-card" v-for="card in line.arr" :key="card.suit.mark + card.num" @click="turnCard(line, card)">
-              <div v-if="card.front" class="solitia-card-front" :style="{'color': card.suit.color}" draggable="true"
-                  @dragstart="dragStart(line, card, $event)"
-                  @dragend="dragEnd()"
-                  @dragover="dragOver(line)"
-                  >
-                {{card.suit.mark}}{{card.num}}
-              </div>
-              <div v-else class="solitia-card-back">
-              </div>
-            </div>
-            <div v-if="line.arr.length <= 0" class="solitia-card">
-              <div draggable="false" class="solitia-card-none"
-                  @dragend="dragEnd()"
-                  @dragover="dragOver(line)"
-                  >
-                FREE
               </div>
             </div>
           </div>
@@ -166,6 +196,7 @@
   flex-flow: row wrap;
   justify-content: space-evenly;
   align-items: center;
+  margin-bottom: 4px;
 }
 .main-field {
   width: 100%;
@@ -245,6 +276,16 @@
   display: flex;
   flex-flow: column;
 }
+.howto-area {
+  margin-bottom: 16px;  
+}
+.howto-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+.howto-text {
+  font-size: 14px;
+}
 @media screen and (max-width: 500px) {
   .is-desktop-only {
     display: none;
@@ -253,7 +294,16 @@
     height: 60px;
     width: 40px;
     font-size: 14px;
-  }  
+  }
+  .main-field {
+    height: 400px;
+  }
+  .game-field {
+    height: 400px;
+  }
+  .tile.is-vertical > .tile.is-child:not(:last-child) {
+    margin-bottom: 8px !important;
+  }
 }
 @media screen and (min-width: 501px) and (max-width: 720px) {
   .is-desktop-only {
@@ -469,6 +519,7 @@
       dragStart(fromLine, item, e) {
         this.draggingItem = item;
         this.draggingLine = fromLine;
+        
       },
       dragEnd() {
         if (!this.draggingItem || !this.draggingLine || !this.targetLine) {
@@ -541,8 +592,8 @@
       turnCard(line, card) {
         if (line.arr[line.arr.length-1] == card && !card.front) {
           card.front = true;
+          this.point += 5;
         }
-        this.point += 5;
       },
       autoPlay() {
         const testArr = [];
